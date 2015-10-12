@@ -4,14 +4,14 @@ use strict;
 
 sub new {
     my $this = shift;
-    my $class = ref($this) || $this;
+    my $class = ref ($this) || $this;
 	my ($home, $away) = @_;
 	my $self = {
 		home => $home,
 		away => $away,
 	};
 	
-    bless $self,$class;
+    bless $self, $class;
     return $self;
 }
 
