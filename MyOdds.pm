@@ -4,42 +4,25 @@ use strict;
 use warnings;
 
 sub new {
-	my $this = shift;
-	my $class = ref($this) || $this;
-	my $self;
-	
+	my $class = shift;
 	my $price = shift;
-	if ($price =~/(\d+)-(\d+)/) {
-		$self = {
-			first => $1,
-			second => $2,
-		}
-	} else {
-		$self = {
-			first => $price,
-			second => 1,
-		}
-	}
-	bless $self,$class;
-	return $self;
+	
+	my $self = ($price =~ /(\d+)-(\d+)/) ? 
+		{ first => $1, second => $2, } :
+		{ first => $price, second => 1, };
+	return bless $self, $class;
 }
 
 sub first {
 	my $self = shift;
-	if (@_) {
-		return $self->{first}= shift;
-	} else {
-		return $self->{first};
-	}
+	if (@_) { $self->{first} = shift; }
+	return $self->{first};
 }
 
 sub second {
 	my $self = shift;
-	if (@_) {
-		return $self->{second} = shift;
-	} else {
-		return $self->{second};
-	}
+	if (@_) { $self->{second} = shift; }
+	return $self->{second};
 }
 
 sub ratio {
@@ -49,7 +32,7 @@ sub ratio {
 
 sub show {
 	my $self = shift;
-	return $self->{first}."-".$self->{second};
+	return $self->{first}. "-" .$self->{second};
 }
 
 =head2
@@ -108,6 +91,25 @@ sub show {
 		return $self->{first}."-".$self->{second} :
 		return $self->{first};
 }
-	
+
+sub new {
+	my $class = shift;
+	my $price = shift;
+	my $self;
+
+	if ($price =~/(\d+)-(\d+)/) {
+		$self = {
+			first => $1,
+			second => $2,
+		}
+	} else {
+		$self = {
+			first => $price,
+			second => 1,
+		}
+	}
+	bless $self,$class;
+}
 =cut
+	
 1;

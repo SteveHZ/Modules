@@ -3,21 +3,19 @@ package PermGen;
 use strict;
 use warnings;
 
-use SeriesGen;
-
-use vars qw(@ISA);
-@ISA = qw(SeriesGen);
+use parent 'SeriesGen';
 
 sub new {
-	my ($this,$selections) = @_;
-	my $class = ref($this) || $this;
-	my $self = $class->SUPER::new($selections,$selections);
-	bless $self,$class;
+	my $class = shift;
+	my $selections = shift;
+
+	my $self = $class->SUPER::new ($selections, $selections);
+	bless $self, $class;
 	return $self;
 }
 
 sub runIt {
-	my ($self,$column) = @_;
+	my ($self, $column) = @_;
 	my $temp;
 
 	if ($self->{from} > 0) {
@@ -42,7 +40,7 @@ sub runIt {
 				@{$self->{iArray}}[$column + 1] = $temp;
 				$self->{count} ++;
 				if ($self->{onIteration}) {
-					&{$self->{onIteration}} ($self);
+					$self->{onIteration}->($self);
 				}
 				return;
 			}
@@ -57,9 +55,9 @@ sub initArray {
 }
 
 sub reInitArray {
-	my ($self,$base) = @_;
+	my ($self, $base) = @_;
 	my $cnt = 0;
-	my ($flag,$num,$i);
+	my ($flag, $num, $i);
 	
 	for ($num = 0;$num < $self->{from};$num ++) {
 		$flag = 0;
@@ -76,7 +74,7 @@ sub reInitArray {
 }
 
 sub checkArray {
-	my ($self,$column)= @_;
+	my ($self, $column)= @_;
 
 	for (my $i = 0;$i < $column;$i ++) {
 		if ($self->{iArray}[$i] == $self->{iArray}[$column]) {

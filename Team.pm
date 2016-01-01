@@ -7,13 +7,13 @@ use Score;
 my $stats_size = 12;
 
 sub new {
-    my $this = shift;
-    my $class = ref ($this) || $this;
-	my ($tmno, $ref) = @_;
+	my $class = shift;
+	my ($teamno, $stats) = @_;
+
 	my $self = {
-		teamNo => $tmno,
-		homes => _homes ($ref),
-		aways => _aways ($ref),
+		teamNo => $teamno,
+		homes => _homes ($stats),
+		aways => _aways ($stats),
 	};
 	
     bless $self, $class;
@@ -23,23 +23,23 @@ sub new {
 # private methods
 
 sub _homes {
-	my ($ref) = @_;
+	my ($stats) = @_;
 	my $array = [];
 	
 	for (my $i = 0; $i < $stats_size / 2; $i++) {
-		my ($h, $a) = split (/-/, @$ref [$i]);
-		push ($array, Score->new ($h, $a));	
+		my ($h, $a) = split (/-/, @$stats [$i]);
+		push (@$array, Score->new ($h, $a));	
 	}
 	return $array;
 }
 
 sub _aways {
-	my ($ref) = @_;
+	my ($stats) = @_;
 	my $array = [];
 	
 	for (my $i = $stats_size / 2; $i < $stats_size; $i++) {
-		my ($h, $a) = split (/-/, @$ref [$i]);
-		push ($array, Score->new ($h, $a));	
+		my ($h, $a) = split (/-/, @$stats [$i]);
+		push (@$array, Score->new ($h, $a));	
 	}
 	return $array;
 }
@@ -69,14 +69,14 @@ sub csvStats {
 	my $i;
 	
 	for ($i = 0;$i < $stats_size / 2;$i++) {
-		push (@$str,$self->{homes}[$i]->score ());
-		push (@$str,",");
+		push (@$str, $self->{homes}[$i]->score ());
+		push (@$str, ",");
 	}
 	for ($i = 0;$i < $stats_size / 2;$i ++) {
-		push (@$str,$self->{aways}[$i]->score ());
-		push (@$str,",");
+		push (@$str, $self->{aways}[$i]->score ());
+		push (@$str, ",");
 	}
-	pop ( @{$str} );
+	pop (@$str);
 	return $str;
 }
 
@@ -85,10 +85,10 @@ sub stats {
 	my $i;
 	
 	for ($i = 0;$i < $stats_size / 2;$i++) {
-		push (@$str,$self->{homes}[$i]->score ());
+		push (@$str, $self->{homes}[$i]->score ());
 	}
 	for ($i = 0;$i < $stats_size / 2;$i ++) {
-		push (@$str,$self->{aways}[$i]->score ());
+		push (@$str, $self->{aways}[$i]->score ());
 	}
 	return $str;
 }

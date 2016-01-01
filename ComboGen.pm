@@ -3,24 +3,20 @@ package ComboGen;
 use strict;
 use warnings;
 
-use SeriesGen;
-
-use vars qw(@ISA);
-@ISA = qw(SeriesGen);
+use parent 'SeriesGen';
 
 sub new {
-	my $this = shift;
-	my $class = ref($this) || $this;
+	my $class = shift;
 
 	my $self = $class->SUPER::new (@_);
-	bless $self,$class;
+	bless $self, $class;
 	return $self;
 }
 
 # class method overridden from SeriesGen
 
 sub runIt {
-	my ($self,$column) = @_;
+	my ($self, $column) = @_;
 	my $maxCol;
 
 	do {

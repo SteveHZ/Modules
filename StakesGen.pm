@@ -3,24 +3,20 @@ package StakesGen;
 use strict;
 use warnings;
 
-use SeriesGen;
-
-use vars qw(@ISA);
-@ISA = qw(SeriesGen);
+use parent 'SeriesGen';
 
 sub new {
-	my $this = shift;
-	my $class = ref($this) || $this;
+	my $class = shift;
 
 	my $self = $class->SUPER::new (@_);
-	bless $self,$class;
+	bless $self, $class;
 	return $self;
 }
 
 # class method overridden from SeriesGen
 
 sub runIt {
-	my ($self,$column) = @_;
+	my ($self, $column) = @_;
 
 	do {
 		if ($column < $self->{selections} - 1) {
@@ -57,7 +53,7 @@ sub initArray {
 }
 
 sub reInitArray {
-	my ($self,$base) = @_;
+	my ($self, $base) = @_;
 	my $cnt = 0;
 	my $num;
 

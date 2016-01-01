@@ -14,13 +14,15 @@ my (@expect) = ( qw/ W L D N/ );
 my (@result) = ( qw/ won lost drew got_bored/ );
 my (@not_result) = ( qw/ win lose draw get_bored/ );	
 
-for my $i(0...@homes - 1) {
-	my $score = Score->new ($homes[$i],$aways[$i]);
+print "\n";
+
+for my $i(0...$#homes) {
+	my $score = Score->new ($homes[$i], $aways[$i]);
 
 	ok (defined $score, 'created ...');
 	ok ($score->isa ('Score'), 'a new Score class');
 	
-	for my $j (0...@result - 1) {
+	for my $j (0...$#result) {
 		print "testing $homes[$i]-$aways[$i]";
 		($score->result () eq $expect[$j] ) ?
 			print " we $result[$j] !\n":

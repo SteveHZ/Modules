@@ -11,7 +11,7 @@ use PermGen;
 
 my $coderef = sub {
 	my $objref = shift;
-	
+
 	print "\n";
 	for (my $i = 0; $i < $objref->selections; $i ++) {
 		printf ("%2d ", $objref->index ($i) + 1 );
@@ -20,8 +20,8 @@ my $coderef = sub {
 
 my $coderef_end = sub {
 	my $objref = shift;
-	
-	print "\n".$objref->count()." combinations\n"; 
+
+	print "\n".$objref->count ()." combinations\n";
 };
 
 my $stakes_gen = StakesGen->new (3,6);

@@ -4,8 +4,8 @@ use strict;
 use warnings;
 
 sub new {
-	my $this = shift;
-	my $class = ref($this) || $this;
+	my $class = shift;
+
 	my $self = {
 		selections => shift,
 		from => shift,
@@ -17,42 +17,45 @@ sub new {
 	die "error in SeriesGen !!" if ( $self->{selections} < 1 ||
 									 $self->{selections} > $self->{from} );
 	
-	bless $self,$class;
+	bless $self, $class;
 	return $self;
 }
 
 # class accessors
 
 sub index {
-	my ($self,$idx) = @_;
+	my ($self, $idx) = @_;
 	return @{$self->{iArray}}[$idx];
 }
 
 sub selections {
 	my $self = shift;
-	if (@_) {
-		return $self->{selections} = shift;
-	} else {
-		return $self->{selections};
-	}
+	if (@_) { $self->{selections} = shift; }
+	return $self->{selections};
 }
 
 sub from {
 	my $self = shift;
-	if (@_) {
-		return $self->{from} = shift;
-	} else {
-		return $self->{from};
-	}
+	if (@_) { $self->{from} = shift; }
+	return $self->{from};
 }
 
 sub count {
 	my $self = shift;
-	if (@_) {
-		return $self->{count} = shift;
-	} else {
-		return $self->{count};
-	}
+	if (@_) { $self->{count} = shift; }
+	return $self->{count};
+}
+
+sub onIteration {
+	my $self = shift;
+	if (@_) { $self->{onIteration} = shift; }
+	return $self->{onIteration};
+}
+
+sub onIterationEnd {
+	my $self = shift;
+	if (@_) { $self->{onIterationEnd} = shift; }
+	return $self->{onIterationEnd};
 }
 
 # class methods
@@ -69,28 +72,10 @@ sub initArray {
 }
 
 sub reInitArray {
-	my ($self,$column) = @_;
+	my ($self, $column) = @_;
 	my $count = 1;
 	for (my $i = $column+ 1;$i < $self->{selections};$i++,$count++) {
 		@{$self->{iArray}}[$i] = @{$self->{iArray}}[$column] + $count;
-	}
-}
-
-sub onIteration {
-	my $self = shift;
-	if (@_) {
-		return $self->{onIteration} = shift;
-	} else {
-		return $self->{onIteration};
-	}
-}
-
-sub onIterationEnd {
-	my $self = shift;
-	if (@_) {
-		return $self->{onIterationEnd} = shift;
-	} else {
-		return $self->{onIterationEnd};
 	}
 }
 
@@ -98,7 +83,7 @@ sub run {
 	my $self = shift;
 
 	if ($self->initArray ()) {
-		$self->runIt(0);
+		$self->runIt (0);
 		if ($self->{onIterationEnd}) {
 			$self->{onIterationEnd}->($self);
 		}
