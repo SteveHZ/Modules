@@ -1,3 +1,4 @@
+#!	C:/Strawberry/perl/bin
 
 #	MyJSON.t 06/01/16
 

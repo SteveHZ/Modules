@@ -6,10 +6,20 @@ use warnings;
 sub new {
 	my $class = shift;
 	my $price = shift;
-	
-	my $self = ($price =~ /(\d+)-(\d+)/) ? 
-		{ first => $1, second => $2, } :
-		{ first => $price, second => 1, };
+
+	my $self;
+	if ($price =~ /(\d+)([-.])(\d+)/) {
+		if ($2 eq '-') {
+			$self = { first => $1, second => $2, }
+		} elsif ($2 eq '.') {
+			$self = {first => $price - 1, second => 1, }
+		} else {
+			die "error in MyOdds";
+		}
+	} else {
+		$self = {first => $price, second => 1, }
+	}
+
 	return bless $self, $class;
 }
 
@@ -32,7 +42,11 @@ sub ratio {
 
 sub show {
 	my $self = shift;
-	return $self->{first}. "-" .$self->{second};
+	if ($self->{first} =~ /(\d+).(\d+)/) {
+		return sprintf "%.02f", $self->{first} + 1;
+	} else {
+		return $self->{first}. "-" .$self->{second};
+	}
 }
 
 =head2

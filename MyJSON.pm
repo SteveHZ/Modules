@@ -9,7 +9,7 @@ use JSON;
 use Exporter 'import';
 use vars qw ($VERSION @EXPORT_OK %EXPORT_TAGS);
 
-$VERSION     = 1.00;
+$VERSION = 1.00;
 @EXPORT_OK = qw (read_json write_json);  # symbols to export on request
 %EXPORT_TAGS = ( All => [qw (&read_json &write_json)]);
 
