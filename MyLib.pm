@@ -8,8 +8,22 @@ use warnings;
 use Exporter 'import';
 use vars qw (@EXPORT_OK %EXPORT_TAGS);
 
-@EXPORT_OK	 = qw (unique sort_HoA where all_pass date_where multi_where qk prompt each_array multi_array);
+@EXPORT_OK	 = qw (prompt ucfirst_all unique sort_HoA where all_pass date_where multi_where qk each_array multi_array);
 %EXPORT_TAGS = (all => \@EXPORT_OK);
+
+sub prompt {
+	my ($str, $prompt) = @_;
+	$prompt //= '>';
+	
+	print "\n$str $prompt ";
+	chomp (my $in = <STDIN>);
+	return $in;
+}
+
+sub ucfirst_all {
+	my $str = shift;
+	return join " ", map { ucfirst } split ' ', $str;
+}
 
 sub unique {
 	my $args = { order => "asc", @_ };
@@ -105,15 +119,6 @@ sub qk {
 
 	my %hash = map {$_ => $value} @$list;
 	return \%hash;
-}
-
-sub prompt {
-	my ($str, $prompt) = @_;
-	$prompt //= '>';
-	
-	print "\n$str $prompt ";
-	chomp (my $in = <STDIN>);
-	return $in;
 }
 
 sub each_array {
