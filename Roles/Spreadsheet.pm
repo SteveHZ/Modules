@@ -56,9 +56,9 @@ after 'BUILD' => sub {
 	);
 
 	$self->{range_parser} = qr/^
-		(?<left>\D)
+		(?<left>\D+)
 		(?<top>\d+):
-		(?<right>\D)
+		(?<right>\D+)
 		(?<bottom>\d+)$
 	/x;
 };
@@ -67,10 +67,10 @@ sub write_row {
 	my ($self, $worksheet, $row, $row_data) = @_;
 
 	my $col = 0;
-	for my $data (@$row_data) {
-		for my $key (keys %$data) {
+	for my $cell_data (@$row_data) {
+		while (my ($data, $fmt) = each %$cell_data) {
 			$col ++ while any { $col == $_ } @{ $self->blank_columns };
-			$worksheet->write ( $row, $col ++, $key, $data->{$key} );
+			$worksheet->write ( $row, $col ++, $data, $fmt );
 		}
 	}
 }
@@ -106,10 +106,10 @@ sub template_write_row {
 	my ($self, $worksheet, $row, $row_data) = @_;
 
 	my $col = 0;
-	for my $data (@$row_data) {
-		for my $key (keys %$data) {
+	for my $cell_data (@$row_data) {
+		while (my ($data, $fmt) = each %$cell_data) {
 			$col ++ while any { $col == $_ } @{ $self->blank_columns };
-			$worksheet->write ( $row, $col ++, $key, $self->{ $data->{$key} } );
+			$worksheet->write ( $row, $col ++, $data, $self->{ $fmt } );
 		}
 	}
 }

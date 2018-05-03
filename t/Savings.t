@@ -5,7 +5,7 @@ use strict;
 use warnings;
 
 use Test::More tests => 2;
-use Savings qw (:All);
+use Savings qw(:all);
 use utf8;
 
 my $amount = 100.00;

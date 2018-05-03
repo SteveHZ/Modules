@@ -6,20 +6,19 @@ use strict;
 use warnings;
 
 use Exporter 'import';
-use vars qw ($VERSION @EXPORT_OK %EXPORT_TAGS);
+use vars qw (@EXPORT_OK %EXPORT_TAGS);
 
-$VERSION     = 1.00;
-@EXPORT_OK	 = qw (unique sort_HoA where all_pass date_where multi_where qk prompt each_array multi_array);  # symbols to export on request
-%EXPORT_TAGS = ( All => [qw (&unique &sort_HoA &where &all_pass &date_where &multi_where &qk &prompt &each_array &multi_array)]);
+@EXPORT_OK	 = qw (unique sort_HoA where all_pass date_where multi_where qk prompt each_array multi_array);
+%EXPORT_TAGS = (all => \@EXPORT_OK);
 
 sub unique {
-	my $hash = { order => "asc", @_ };
+	my $args = { order => "asc", @_ };
 
-	my $sort_func = ($hash->{order} eq "asc") ?
+	my $sort_func = ($args->{order} eq "asc") ?
 		sub { $a cmp $b } : sub { $b cmp $a };
 
 	return sort $sort_func
-		keys %{{ map { $_->{$hash->{field}}  => 1 } @{$hash->{db}} }};
+		keys %{{ map { $_->{$args->{field}}  => 1 } @{$args->{db}} }};
 }
 
 sub where {
@@ -109,8 +108,10 @@ sub qk {
 }
 
 sub prompt {
-	my $str = shift;
-	print "$str > ";
+	my ($str, $prompt) = @_;
+	$prompt //= '>';
+	
+	print "\n$str $prompt ";
 	chomp (my $in = <STDIN>);
 	return $in;
 }

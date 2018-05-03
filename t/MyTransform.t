@@ -6,7 +6,7 @@ use strict;
 use warnings;
 
 use Test::More tests => 2;
-use MyTransform qw (:All);
+use MyTransform qw (:all);
 
 my @unsorted =	(
 	"Alex Lifeson",

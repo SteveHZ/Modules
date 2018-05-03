@@ -8,11 +8,10 @@ use warnings;
 use Data::Dumper;
 
 use Exporter 'import';
-use vars qw ($VERSION @EXPORT_OK %EXPORT_TAGS);
+use vars qw (@EXPORT_OK %EXPORT_TAGS);
 
-$VERSION     = 1.00;
-@EXPORT_OK	 = qw (schwartzian_sort schwartzian_sort_cmp schwartz);  # symbols to export on request
-%EXPORT_TAGS = ( All => [qw (&schwartzian_sort &schwartzian_sort_cmp &schwartz)]);
+@EXPORT_OK	 = qw (schwartzian_sort schwartzian_sort_cmp schwartz);
+%EXPORT_TAGS = (all => \@EXPORT_OK);
 
 sub schwartzian_sort (&@) {
     my $weighter = shift;

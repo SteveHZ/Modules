@@ -11,7 +11,7 @@ sub read_json {
 
     my $json = JSON->new;
 	
-    open (my $fh, '<', $filename) or die "\n\n Can't open $filename for reading !!!";
+    open (my $fh, '<', $filename) or die "\n\n Can't open $filename for reading !!!\n$!";
     my $json_text = <$fh>;
     close $fh;
 	return $json->decode ($json_text);
@@ -24,7 +24,8 @@ sub write_json {
     my $json = JSON->new;
 	my $pretty_print = $json->pretty->indent_length ($indent)->encode ($data);
 
-	open (my $fh, '>', $filename) or die "\n\n Can't open $filename for writing !!!";
+	open (my $fh, '>', $filename) or die "\n\n Can't open $filename for writing !!!\n$!";
+#print $fh $data;
 	print $fh $pretty_print;
     close $fh;
 }

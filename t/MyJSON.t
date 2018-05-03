@@ -5,7 +5,7 @@
 use strict;
 use warnings;
 use Test::More tests => 1;
-use MyJSON qw (:All);
+use MyJSON qw(:all);
 
 my $test_file = "json/test.json";
 

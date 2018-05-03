@@ -6,15 +6,11 @@ use strict;
 use warnings;
 
 use Exporter 'import';
-use vars qw ($VERSION @EXPORT_OK %EXPORT_TAGS);
+use vars qw (@EXPORT_OK %EXPORT_TAGS);
+@EXPORT_OK = qw ( fmt net tax tax_from_net gross_from_net interest monthly_interest reg_saver_interest
+				  effective_gross_interest_rate effective_net_interest_rate drip_feed_interest reg_saver);
 
-$VERSION = 1.00;
-@EXPORT_OK = qw (	fmt net tax tax_from_net gross_from_net interest monthly_interest reg_saver_interest
-					effective_gross_interest_rate effective_net_interest_rate drip_feed_interest reg_saver);
-
-%EXPORT_TAGS = ( All => [qw (&fmt &net &tax &tax_from_net &gross_from_net &interest &monthly_interest &reg_saver_interest
-							 &effective_gross_interest_rate &effective_net_interest_rate &drip_feed_interest &reg_saver)]);
-
+%EXPORT_TAGS = (all => \@EXPORT_OK);
 
 sub fmt {
 	my $amount = shift;

@@ -7,7 +7,7 @@ use warnings;
 use Test::More tests => 2;
 use Test::Deep;
 
-use MyMath qw(:All);
+use MyMath qw(:all);
 
 subtest 'simple_tests' => sub {
 	plan tests => 4;

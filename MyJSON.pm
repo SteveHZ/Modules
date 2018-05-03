@@ -7,11 +7,10 @@ use warnings;
 use JSON -support_by_pp;
 
 use Exporter 'import';
-use vars qw ($VERSION @EXPORT_OK %EXPORT_TAGS);
+use vars qw (@EXPORT_OK %EXPORT_TAGS);
 
-$VERSION	 = 1.00;
-@EXPORT_OK	 = qw (read_json write_json);  # symbols to export on request
-%EXPORT_TAGS = ( All => [qw (&read_json &write_json)]);
+@EXPORT_OK	 = qw (read_json write_json);
+%EXPORT_TAGS = (all => \@EXPORT_OK);
 
 sub read_json {
 	my $filename = shift;
@@ -31,7 +30,7 @@ sub write_json {
     my $json = JSON->new;
 	my $pretty_print = $json->pretty->indent_length ($indent)->encode ($data);
 
-    open (my $fh, '>', $filename) or die "\n\n Can't open $filename for writing !!!";
+    open (my $fh, '>', $filename) or die "\n\n Can't open $filename for writing !!!\nReason is $!";
     print $fh $pretty_print;
     close $fh;
 }

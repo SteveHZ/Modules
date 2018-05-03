@@ -7,11 +7,10 @@ use strict;
 use warnings;
 
 use Exporter 'import';
-use vars qw ($VERSION @EXPORT_OK %EXPORT_TAGS);
+use vars qw (@EXPORT_OK %EXPORT_TAGS);
 
-$VERSION = 1.00;
 @EXPORT_OK = qw (power factorial perms new_perms build_range);
-%EXPORT_TAGS = ( All => [qw (&power &factorial &perms &new_perms &build_range) ] );
+%EXPORT_TAGS = (all => \@EXPORT_OK);
 
 sub power {
 	my ($num, $exp) = @_;

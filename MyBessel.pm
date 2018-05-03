@@ -8,11 +8,10 @@ use warnings;
 use Math::Cephes qw(iv);
 
 use Exporter 'import';
-use vars qw ($VERSION @EXPORT_OK %EXPORT_TAGS);
+use vars qw (@EXPORT_OK %EXPORT_TAGS);
 
-$VERSION = 1.00;
 @EXPORT_OK = qw (calc_besseliv);
-%EXPORT_TAGS = ( All => [qw (&calc_besseliv) ] );
+%EXPORT_TAGS = (all => \@EXPORT_OK);
 
 sub calc_besseliv {
 	my ($aa, $bb, $harm_mean) = @_;
