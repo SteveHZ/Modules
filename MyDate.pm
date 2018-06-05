@@ -5,7 +5,6 @@ use warnings;
 use Date::Simple qw(today);
 
 use Exporter 'import';
-
 use vars qw (@EXPORT_OK %EXPORT_TAGS);
 
 our @EXPORT = qw( $month_names $short_month_names @days_of_week);
