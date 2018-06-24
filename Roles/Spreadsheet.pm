@@ -77,7 +77,7 @@ sub write_row {
 
 sub set_columns {
 	my ($self, $worksheet, $columns) = @_;
-	my $is_string = qr/(?:[A-Z]\s)+[A-Z]/; # 2 or more letters seperated by a space
+	my $is_string = qr/(?:[A-Z]\s)+[A-Z]/; # 2 or more letters seperated by a space # ?: non-capturing ()s
 	my $is_range = qr/[A-Z]+:[A-Z]+/; # 2 x 1 or more capital letters seperated by a colon
 
 	for my $key (keys %$columns) {

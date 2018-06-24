@@ -9,12 +9,26 @@ sub lower {	qr/[a-z]/; }
 sub numeric { qr/\d/; }
 
 sub time { qr/\d{2}:\d{2}/; }
-sub dmy_date { qr/\d\d\/\d\d\/\d\d/; }
+sub dmy_date { qr/\d{2}\/\d{2}\/\d{2}/; }
+sub dm_date { qr/\d{2}\/\d{2}/; }
+
+sub as_date_month {	
+	my ($self, $val) = @_;
+	$val =~ s/\d{4}-(\d{2})-(\d{2})/$2\/$1/;
+	return $val;
+};
+
+sub as_dmy {
+	my ($self, $val) = @_;
+	$val =~ s/\d{2}(\d{2})-(\d{2})-(\d{2})/$3\/$2\/$1/;
+	return $val;
+}
 
 # oddsp.pl
 sub score { qr/(\d\d?):(\d\d?)/; }
 sub team { qr/[A-Za-z\& \.]/; }
 sub odds { qr/\d+\.\d{2}/; }
+
 sub date { 
 	qr/
 		(?<date>\d{2})\s
@@ -30,5 +44,28 @@ sub yesterdays_date {
 		(?<month>\w{3})
 	/x;
 }
+
+=pod
+
+=head1 NAME
+
+MyRegX.pm
+
+=head1 SYNOPSIS
+
+A collection of regexes
+
+=head1 DESCRIPTION
+
+=head1 AUTHOR
+
+Steve Hope
+
+=head1 LICENSE
+
+This library is free software. You can redistribute it and/or modify
+it under the same terms as Perl itself.
+
+=cut
 
 1;
