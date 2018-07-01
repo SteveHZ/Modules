@@ -24,5 +24,5 @@ subtest 'midstr' => sub {
 
 subtest 'rightstr' => sub {
 	plan tests => 1;
-	is (rightstr ($name,3), 'ope', 'midstr ok');
+	is (rightstr ($name,3), 'ope', 'rightstr ok');
 };

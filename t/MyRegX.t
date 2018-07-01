@@ -45,8 +45,10 @@ subtest 'odds' => sub {
 };
 
 subtest 'score' => sub {
-	plan tests => 2;
-	like ('2:0', $rx->score, 'like score');
+	plan tests => 4;
+	like ('2:0', $rx->score, 'like score 2:0');
+	like ('2:10', $rx->score, 'like score 2:10');
+	like ('12:0', $rx->score, 'like score 12:0');
 	unlike ('2-0', $rx->score, 'unlike score');
 };
 
