@@ -29,20 +29,40 @@ sub score { qr/(\d\d?):(\d\d?)/; }
 sub team { qr/[A-Za-z\& \.]/; }
 sub odds { qr/\d+\.\d{2}/; }
 
-sub date { 
-	qr/
-		(?<date>\d{2})\s
-		(?<month>\w+)\s
-		(?<year>\d{4})
-	/x;
+sub date {
+qr/
+	(?<date>\d{2})\s
+	(?<month>\w+)\s
+	(?<year>\d{4})
+/x;
 }
 
 sub yesterdays_date {
-	qr/
-		Yesterday\W+
-		(?<date>\d{2})\s
-		(?<month>\w{3})
-	/x;
+qr/
+	Yesterday\W+
+	(?<date>\d{2})\s
+	(?<month>\w{3})
+/x;
+}
+
+# euro_results.pl, results.pl
+sub date_parser {
+qr/
+	\w+\s				# day
+	(?<date>\d\d?)		# date
+	\w\w\s				# date end (st,nd,rd,th)
+	(?<month>\w+)\s		# month
+	(?<year>\d\d\d\d)	# year
+/x;
+}
+
+sub game_parser {
+qr/
+	(?<home>\D+)		# home team
+	(?<home_score>\d\d?)# home score
+	(?<away>\D+)		# away team
+	(?<away_score>\d\d?)# away score
+/x;
 }
 
 =pod

@@ -49,7 +49,7 @@ sub update_dbi  {
 	my @league_games = ();
 		
 	my $dbh = DBI->connect ("DBI:CSV:", undef, undef, {
-		f_dir => "data",
+		f_dir => "C:/Mine/perl/Football/data",
 		f_ext => ".csv",
 		csv_eol => "\n",
 		RaiseError => 1,
