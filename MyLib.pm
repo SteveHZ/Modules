@@ -102,6 +102,7 @@ sub sort_HoA {
 }
 
 sub all_pass {
+	return 0 if !@_ ; 
 	my @functions = @_;
 
 	return sub {
@@ -140,10 +141,11 @@ sub multi_array {
 
 	return sub {
 		return () if ++$idx == $array_size;
-		my @list;
-		push @list, @$arrays[$_]->[$idx] for (0..$num_args);
-		return @list;
+		return map { @$arrays[$_]->[$idx] } (0..$num_args);
 	}
 }
+#		my @list;
+#		push @list, @$arrays[$_]->[$idx] for (0..$num_args);
+#		return @list;
 
 1;

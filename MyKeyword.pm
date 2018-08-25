@@ -10,11 +10,10 @@ sub import {
 
 	for my $keyword (@keywords) {
 		Keyword::Simple::define "$keyword", sub {
-			my ($ref) = @_;
+			my $ref = shift;
 			if ( $ENV{"PERL_KEYWORD_$keyword"} ) {
 				substr( $$ref, 0, 0 ) = 'if (1)';
-			}
-			else {
+			} else {
 				substr( $$ref, 0, 0 ) = 'if (0)';
 			}
 		};

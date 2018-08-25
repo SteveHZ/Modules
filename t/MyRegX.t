@@ -11,7 +11,7 @@ my $rx = MyRegX->new ();
 
 subtest 'constructor' => sub {
 	plan tests => 1;
-	isa_ok ($rx, 'MyRegX', '$model');
+	isa_ok ($rx, 'MyRegX', '$rx');
 };
 
 subtest 'time' => sub {
