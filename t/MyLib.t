@@ -1,9 +1,9 @@
 use strict;
 use warnings;
 
-use Test::More tests => 1;
+use Test::More tests => 3;
 use Test::Deep;
-use MyLib qw(multi_array);
+use MyLib qw(multi_array is_empty_array is_empty_hash);
 
 my @first = (1,2,3,4);
 my @second = qw(Steve Linda Izzy Julie);
@@ -22,11 +22,23 @@ subtest 'multi_array' => sub {
 	my $idx = 0;
 	while (my ($id1, $id2, $id3) = $iterator->()) {
 		cmp_deeply (
-			[ $id1, $id2,$id3 ],
+			[ $id1, $id2, $id3 ],
 			[ map { $_->[0], $_->[1], $_->[2] } $expect[$idx++] ],
-#			 map { $_->[0], $_->[1], $_->[2] } $expect[$idx],
-#			[ $expect[$idx]->[0], $expect[$idx]->[1], $expect[$idx++]->[2] ],
 			"loop number $idx"
 		);
 	}
+};
+
+subtest 'is_empty_array' => sub {
+	my @names = ();
+	is (is_empty_array (\@names), 1, 'empty array ok');
+	push @names, ('Steve', 'Linda', 'Zappa');
+	is (is_empty_array (\@names), '', 'items in array ok');
+};
+
+subtest 'is_empty_hash' => sub {
+	my %names = ();
+	is (is_empty_hash (\%names), 1, 'empty hash ok');
+	$names{'Steve'} = 'Zappy';
+	is (is_empty_hash (\%names), '', 'items in hash ok');
 };

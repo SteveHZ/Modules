@@ -8,13 +8,13 @@ use warnings;
 use Exporter 'import';
 use vars qw (@EXPORT_OK %EXPORT_TAGS);
 
-@EXPORT_OK	 = qw (prompt ucfirst_all unique sort_HoA where all_pass date_where multi_where qk each_array multi_array);
+@EXPORT_OK	 = qw (prompt ucfirst_all unique sort_HoA where all_pass date_where multi_where qk each_array multi_array is_empty_array is_empty_hash);
 %EXPORT_TAGS = (all => \@EXPORT_OK);
 
 sub prompt {
 	my ($str, $prompt) = @_;
 	$prompt //= '>';
-	
+
 	print "\n$str $prompt ";
 	chomp (my $in = <STDIN>);
 	return $in;
@@ -94,7 +94,7 @@ sub sort_HoA {
 #	then save to a new anonymous array
 
 	for my $key (keys %$toSort) {
-		$sorted->{$key} = [ 
+		$sorted->{$key} = [
 			sort { $a cmp $b } @{ $toSort->{$key} }
 		];
 	}
@@ -102,7 +102,7 @@ sub sort_HoA {
 }
 
 sub all_pass {
-	return 0 if !@_ ; 
+	return 0 if !@_ ;
 	my @functions = @_;
 
 	return sub {
@@ -147,5 +147,15 @@ sub multi_array {
 #		my @list;
 #		push @list, @$arrays[$_]->[$idx] for (0..$num_args);
 #		return @list;
+
+sub is_empty_array {
+    my $arrayref = shift;
+    return $#$arrayref == -1;
+}
+
+sub is_empty_hash {
+	my $hashref = shift;
+	return keys %$hashref == 0;
+}
 
 1;
