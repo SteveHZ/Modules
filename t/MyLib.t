@@ -30,15 +30,17 @@ subtest 'multi_array' => sub {
 };
 
 subtest 'is_empty_array' => sub {
+	plan tests => 2;
 	my @names = ();
 	is (is_empty_array (\@names), 1, 'empty array ok');
 	push @names, ('Steve', 'Linda', 'Zappa');
-	is (is_empty_array (\@names), '', 'items in array ok');
+	is (is_empty_array (\@names), 0, 'items in array ok');
 };
 
 subtest 'is_empty_hash' => sub {
+	plan tests => 2;
 	my %names = ();
 	is (is_empty_hash (\%names), 1, 'empty hash ok');
 	$names{'Steve'} = 'Zappy';
-	is (is_empty_hash (\%names), '', 'items in hash ok');
+	is (is_empty_hash (\%names), 0, 'items in hash ok');
 };

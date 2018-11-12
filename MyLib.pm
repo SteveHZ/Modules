@@ -8,7 +8,7 @@ use warnings;
 use Exporter 'import';
 use vars qw (@EXPORT_OK %EXPORT_TAGS);
 
-@EXPORT_OK	 = qw (prompt ucfirst_all unique sort_HoA where all_pass date_where multi_where qk each_array multi_array is_empty_array is_empty_hash);
+@EXPORT_OK	 = qw (prompt wordcase unique sort_HoA where all_pass date_where multi_where qk each_array multi_array is_empty_array is_empty_hash);
 %EXPORT_TAGS = (all => \@EXPORT_OK);
 
 sub prompt {
@@ -20,7 +20,7 @@ sub prompt {
 	return $in;
 }
 
-sub ucfirst_all {
+sub wordcase {
 	my $str = shift;
 	return join " ", map { ucfirst } split ' ', $str;
 }
@@ -144,18 +144,15 @@ sub multi_array {
 		return map { @$arrays[$_]->[$idx] } (0..$num_args);
 	}
 }
-#		my @list;
-#		push @list, @$arrays[$_]->[$idx] for (0..$num_args);
-#		return @list;
 
 sub is_empty_array {
     my $arrayref = shift;
-    return $#$arrayref == -1;
+	return ($#$arrayref == -1) ? 1 : 0;
 }
 
 sub is_empty_hash {
 	my $hashref = shift;
-	return keys %$hashref == 0;
+	return (keys %$hashref == 0) ? 1 : 0;
 }
 
 1;

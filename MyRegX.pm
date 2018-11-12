@@ -12,7 +12,7 @@ sub time { qr/\d{2}:\d{2}/; }
 sub dmy_date { qr/\d{2}\/\d{2}\/\d{2}/; }
 sub dm_date { qr/\d{2}\/\d{2}/; }
 
-sub as_date_month {	
+sub as_date_month {
 	my ($self, $val) = @_;
 	$val =~ s/\d{4}-(\d{2})-(\d{2})/$2\/$1/;
 	return $val;
@@ -62,6 +62,27 @@ qr/
 	(?<home_score>\d\d?)# home score
 	(?<away>\D+)		# away team
 	(?<away_score>\d\d?)# away score
+/x;
+}
+
+# Football::Results_Model.pm
+sub date_parser_without_year {
+qr/
+	[A-Z][a-z]+\s				# day
+	(?<date>\d\d?)				# date
+	\w\w\s						# date end (st,nd,rd,th)
+	(?<month>[A-Z][a-z]+)		# month
+/x;
+}
+
+# Rugby::Results_Model.pm
+sub rugby_results_date_parser {
+qr/
+	[A-Z][a-z]+\s				# day
+	(?<date>\d\d?)				# date
+	\w\w\s						# date end (st,nd,rd,th)
+	(?<month>[A-Z][a-z]+)\s		# month
+	(?<year>\d\d\d\d)			# year
 /x;
 }
 

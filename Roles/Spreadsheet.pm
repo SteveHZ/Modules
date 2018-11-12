@@ -40,7 +40,7 @@ after 'BUILD' => sub {
 		bg_color => '#FFC7CE',
 		color => 'blue',
 		align => 'center',
-		num_format => '#,##0.00',
+		num_format => '#,##0.0#',
 	);
 	$self->{currency_format} = $self->{workbook}->add_format (
 		bg_color => '#FFC7CE',
@@ -94,7 +94,7 @@ sub set_columns {
 
 sub _do_columns {
 	my ($worksheet, $columns, $column, $col) = @_;
-	
+
 	if (ref ($columns->{$column}) eq "HASH") {
 		$worksheet->set_column ($col, $columns->{$column}->{size}, $columns->{$column}->{fmt} );
 	} else {
@@ -126,7 +126,7 @@ sub add_format {
 
 sub copy_format {
 	my ($self, $format) = @_;
-	
+
 	my $new_format = $self->{workbook}->add_format ();
 	$new_format->copy ($format);
 	return $new_format;
@@ -139,13 +139,13 @@ sub border_range {
 	my $range = $args->{range} // "A1:B1";
 	my $text = $args->{text} // "";
 	my $base_format = $args->{format} // $self->{format};
-	
+
 	die "\nRange error in border_range '$range'"
 		unless $range =~ $self->{range_parser};
 
 	for my $column ($+{left}..$+{right}) {
 		for my $row ($+{top}..$+{bottom}) {
-		
+
 			my $format = $self->copy_format ($base_format);
 			$format->set_left (1) if $column eq $+{left};
 			$format->set_top (1) if $row == $+{top};
@@ -155,6 +155,6 @@ sub border_range {
 			$worksheet->write ("$column$row", $text, $format);
 		}
 	}
-} 
+}
 
 1;
