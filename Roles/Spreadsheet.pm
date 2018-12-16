@@ -6,13 +6,9 @@ use Excel::Writer::XLSX;
 use List::Util qw (any);
 use utf8;
 
-use Moo::Role;
+use Mu::Role;
 requires 'filename';
-
-has 'blank_columns' => (
-	is => 'rw',
-	default => sub { [] },
-);
+rw 'blank_columns', default => sub { [] };
 
 sub BUILD {}
 
@@ -40,7 +36,7 @@ after 'BUILD' => sub {
 		bg_color => '#FFC7CE',
 		color => 'blue',
 		align => 'center',
-		num_format => '#,##0.0#',
+		num_format => '#,##0.00',
 	);
 	$self->{currency_format} = $self->{workbook}->add_format (
 		bg_color => '#FFC7CE',
