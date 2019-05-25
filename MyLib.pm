@@ -118,8 +118,7 @@ sub qk {
 	my ($list, $value) = @_;
 	$value //= 1;
 
-	my %hash = map {$_ => $value} @$list;
-	return \%hash;
+	return { map {$_ => $value} @$list };
 }
 
 sub each_array {

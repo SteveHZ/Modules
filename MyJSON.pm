@@ -16,7 +16,7 @@ sub read_json {
 	my $filename = shift;
     local $/; # end of record character
 
-    open (my $fh, '<', $filename) or die "\n\n Can't open $filename for reading !!!";
+    open (my $fh, '<', $filename) or die "\n\n Can't open $filename for reading !!! - $!";
     my $json_text = <$fh>;
     close $fh;
 
@@ -26,7 +26,7 @@ sub read_json {
 sub write_json {
     my ($filename, $data, $indent) = @_;
 	$indent //= 4;
-	
+
     my $json = JSON->new;
 	my $pretty_print = $json->pretty->indent_length ($indent)->encode ($data);
 

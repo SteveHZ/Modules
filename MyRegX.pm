@@ -81,10 +81,20 @@ qr/
 	[A-Z][a-z]+\s				# day
 	(?<date>\d\d?)				# date
 	\w\w\s						# date end (st,nd,rd,th)
-	(?<month>[A-Z][a-z]+)\s		# month
-	(?<year>\d\d\d\d)			# year
+	(?<month>[A-Z][a-z]+)		# month
 /x;
 }
+#(?<year>\d\d\d\d)			# year
+
+#sub rugby_results_date_parser {
+#qr/
+#	[A-Z][a-z]+\s				# day
+#	(?<date>\d\d?)				# date
+#	\w\w\s						# date end (st,nd,rd,th)
+#	(?<month>[A-Z][a-z]+)\s		# month
+#	(?<year>\d\d\d\d)			# year
+#/x;
+#}
 
 =pod
 

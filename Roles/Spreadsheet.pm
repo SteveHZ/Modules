@@ -6,9 +6,9 @@ use Excel::Writer::XLSX;
 use List::Util qw (any);
 use utf8;
 
-use Mu::Role;
+use Moo::Role;
 requires 'filename';
-rw 'blank_columns', default => sub { [] };
+has 'blank_columns' => (is => 'rw', default => sub { [] } );
 
 sub BUILD {}
 
@@ -58,6 +58,10 @@ after 'BUILD' => sub {
 		(?<bottom>\d+)$
 	/x;
 };
+#sub DESTROY {
+#	my $self = shift;
+#	$self->{workbook}->close ();
+#}
 
 sub write_row {
 	my ($self, $worksheet, $row, $row_data) = @_;

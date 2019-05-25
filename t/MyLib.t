@@ -1,9 +1,9 @@
 use strict;
 use warnings;
 
-use Test::More tests => 3;
+use Test::More tests => 4;
 use Test::Deep;
-use MyLib qw(multi_array is_empty_array is_empty_hash);
+use MyLib qw(multi_array is_empty_array is_empty_hash qk);
 
 my @first = (1,2,3,4);
 my @second = qw(Steve Linda Izzy Julie);
@@ -44,3 +44,11 @@ subtest 'is_empty_hash' => sub {
 	$names{'Steve'} = 'Zappy';
 	is (is_empty_hash (\%names), 0, 'items in hash ok');
 };
+
+subtest 'qk' => sub {
+	plan tests => 1;
+	my $keys = [ qw(Steve Zappa Linda Pilgrim) ];
+	my $expect = { Steve => 2, Zappa => 2, Linda => 2, Pilgrim => 2 };
+	my $hash = qk ($keys, 2);
+	cmp_deeply ($hash, $expect, 'compare hash ok');
+}

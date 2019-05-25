@@ -20,7 +20,7 @@ sub power {
 sub factorial {
 	my $number = shift;
 	state $cache = {};
-	
+
 	return 1 if $number == 1 or $number == 0;
 	unless (exists $cache->{$number}) {
 		$cache->{$number} =  $number * factorial ($number - 1);
@@ -47,7 +47,6 @@ sub new_perms {
 	my ($top, $bot) = (1, 1);
 
 	$top *= $_ for @{ build_range ($from - ($sels - 1), $from, -1) };
-#	$top *= $_ for reverse ($from - ($sels - 1)..$from);
 	$bot *= $_ for (2..$sels);
 
 	return $top / $bot;
