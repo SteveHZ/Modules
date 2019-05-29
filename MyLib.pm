@@ -2,14 +2,17 @@ package MyLib;
 
 #	MyLib.pm 05/04/16
 
-use strict;
-use warnings;
+use MyHeader;
+use MyIterators qw(make_iterator);
+#use strict;
+#use warnings;
 
 use Exporter 'import';
 use vars qw (@EXPORT_OK %EXPORT_TAGS);
 
-@EXPORT_OK	 = qw (prompt wordcase unique sort_HoA where all_pass date_where multi_where qk each_array multi_array is_empty_array is_empty_hash);
+@EXPORT_OK	 = qw (prompt wordcase unique sort_HoA where all_pass date_where multi_where qk each_array multi_array is_empty_array is_empty_hash build_aoh);
 %EXPORT_TAGS = (all => \@EXPORT_OK);
+
 
 sub prompt {
 	my ($str, $prompt) = @_;
@@ -152,6 +155,22 @@ sub is_empty_array {
 sub is_empty_hash {
 	my $hashref = shift;
 	return (keys %$hashref == 0) ? 1 : 0;
+}
+
+#   Build an array of hashes where the key/values of each hash
+#   are each successive element of the two arrays passed in.
+
+#   For example,
+#   my @first = qw(1 2 3 4 5);
+#   my @second = qw(6 7 8 9 10);
+#   returns
+#   [ { '1' => '6' }, { '2' => '7' }, { '3' => '8' }, { '4' => '9' }, { '5' => '10' } ];
+
+sub build_aoh ($first, $second) {
+    my $it = make_iterator ($second);
+    return [
+        map { { $_ => $it->() } } @$first
+    ];
 }
 
 1;

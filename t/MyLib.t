@@ -1,9 +1,9 @@
 use strict;
 use warnings;
 
-use Test::More tests => 4;
+use Test::More tests => 5;
 use Test::Deep;
-use MyLib qw(multi_array is_empty_array is_empty_hash qk);
+use MyLib qw(multi_array is_empty_array is_empty_hash qk build_aoh);
 
 my @first = (1,2,3,4);
 my @second = qw(Steve Linda Izzy Julie);
@@ -41,7 +41,7 @@ subtest 'is_empty_hash' => sub {
 	plan tests => 2;
 	my %names = ();
 	is (is_empty_hash (\%names), 1, 'empty hash ok');
-	$names{'Steve'} = 'Zappy';
+	$names{'Steve'} = 'Zappa';
 	is (is_empty_hash (\%names), 0, 'items in hash ok');
 };
 
@@ -51,4 +51,12 @@ subtest 'qk' => sub {
 	my $expect = { Steve => 2, Zappa => 2, Linda => 2, Pilgrim => 2 };
 	my $hash = qk ($keys, 2);
 	cmp_deeply ($hash, $expect, 'compare hash ok');
-}
+};
+
+subtest 'build_aoh' => sub {
+	my @first = qw(1 2 3 4 5);
+	my @second = qw(6 7 8 9 10);
+	my $expect = [ { '1' => '6' }, { '2' => '7' }, { '3' => '8' }, { '4' => '9' }, { '5' => '10' } ];
+	my $aoh = build_aoh (\@first, \@second);
+	cmp_deeply ($aoh, $expect, 'build_aoh ok');
+};
