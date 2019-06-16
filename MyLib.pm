@@ -4,16 +4,14 @@ package MyLib;
 
 use MyHeader;
 use MyIterators qw(make_iterator);
-#use strict;
-#use warnings;
 
 use Exporter 'import';
 use vars qw (@EXPORT_OK %EXPORT_TAGS);
 
-@EXPORT_OK	 = qw (prompt wordcase unique sort_HoA where all_pass date_where multi_where qk each_array multi_array is_empty_array is_empty_hash build_aoh);
+@EXPORT_OK	 = qw (prompt wordcase unique sort_HoA where all_pass date_where multi_where qk each_array multi_array is_empty_array is_empty_hash build_aoh partition);
 %EXPORT_TAGS = (all => \@EXPORT_OK);
 
-
+#sub prompt ($str, $prompt = '>') {
 sub prompt {
 	my ($str, $prompt) = @_;
 	$prompt //= '>';
@@ -25,7 +23,7 @@ sub prompt {
 
 sub wordcase {
 	my $str = shift;
-	return join " ", map { ucfirst } split ' ', $str;
+	return join ' ', map { ucfirst } split ' ', $str;
 }
 
 sub unique {
@@ -159,6 +157,8 @@ sub is_empty_hash {
 
 #   Build an array of hashes where the key/values of each hash
 #   are each successive element of the two arrays passed in.
+#	Given an array of $keys and an array of $values,
+#	creates an array of $key => $value hashes.
 
 #   For example,
 #   my @first = qw(1 2 3 4 5);
@@ -171,6 +171,17 @@ sub build_aoh ($first, $second) {
     return [
         map { { $_ => $it->() } } @$first
     ];
+}
+
+#   $code must return a true/false value which indexes into $results
+#   thereby producing arrays of true and false values respectively
+
+sub partition :prototype(&$) {
+    my ($code, $list) = @_;
+    my $parts = [(),()];
+
+    push $parts->[ $code->($_) ]->@*, $_ for @$list;
+    return ($parts->[1], $parts->[0]); # true, false
 }
 
 1;

@@ -1,9 +1,9 @@
 use strict;
 use warnings;
 
-use Test::More tests => 5;
+use Test::More tests => 6;
 use Test::Deep;
-use MyLib qw(multi_array is_empty_array is_empty_hash qk build_aoh);
+use MyLib qw(multi_array is_empty_array is_empty_hash qk build_aoh partition);
 
 my @first = (1,2,3,4);
 my @second = qw(Steve Linda Izzy Julie);
@@ -54,9 +54,21 @@ subtest 'qk' => sub {
 };
 
 subtest 'build_aoh' => sub {
+	plan tests => 1;
 	my @first = qw(1 2 3 4 5);
 	my @second = qw(6 7 8 9 10);
 	my $expect = [ { '1' => '6' }, { '2' => '7' }, { '3' => '8' }, { '4' => '9' }, { '5' => '10' } ];
 	my $aoh = build_aoh (\@first, \@second);
 	cmp_deeply ($aoh, $expect, 'build_aoh ok');
+};
+
+subtest 'partition' => sub {
+	plan tests => 2;
+	my @list = (1..10);
+	my ($true, $false) = partition { $_ % 2 } \@list;
+
+	my $expect_true = [ qw(1 3 5 7 9) ];
+	my $expect_false =  [ qw(2 4 6 8 10) ];
+	cmp_deeply ($true, $expect_true, 'true array ok');
+	cmp_deeply ($false, $expect_false, 'false array ok');
 };
