@@ -187,7 +187,7 @@ subtest 'XPermGen - get_xperms' => sub {
 		[ qw(10 30 40) ],
 		[ qw(10 40 20) ],
 		[ qw(10 40 30) ],
-		
+
 		[ qw(20 10 30) ],
 		[ qw(20 10 40) ],
 		[ qw(20 30 10) ],
@@ -234,14 +234,13 @@ subtest 'StakesGen - get_stakes' => sub {
 };
 print "\n\n";
 
-#=head1
 subtest 'ComboGen - get_combs default' => sub {
 	plan tests => 2;
 	my $combo_gen = ComboGen->new (3,5);
 	$combo_gen->onIteration ($coderef);
 	isa_ok ($combo_gen, 'ComboGen', '$combo_gen');
 
-my $array = [ qw( 1 2 3 4 5) ];
+	my $array = [ qw( 1 2 3 4 5) ];
 	my $expect = [
 		[ qw (1 2 3) ], [ qw (1 2 4) ], [ qw (1 2 5) ],
 		[ qw (1 3 4) ], [ qw (1 3 5) ], [ qw (1 4 5) ],
@@ -252,4 +251,12 @@ my $array = [ qw( 1 2 3 4 5) ];
 #	is (@$combs, 10, "10 combinations - default");
 #	cmp_deeply ($expect, $combs, "10 combinations - 3 from 5");
 };
-#=cut
+
+#use Data::Dumper;
+#subtest 'SeriesGen - get_array' => sub {
+#		plan tests => 1;
+#		is (1,1,'ok');
+#		my $gen = ComboGen->new (3,5);
+#		$gen->run();
+#		print Dumper $gen->get_array ();
+#};

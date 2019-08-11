@@ -3,12 +3,12 @@ package MyLib;
 #	MyLib.pm 05/04/16
 
 use MyHeader;
-use MyIterators qw(make_iterator);
 
 use Exporter 'import';
 use vars qw (@EXPORT_OK %EXPORT_TAGS);
 
-@EXPORT_OK	 = qw (prompt wordcase unique sort_HoA where all_pass date_where multi_where qk each_array multi_array is_empty_array is_empty_hash build_aoh partition);
+@EXPORT_OK	 = qw (prompt wordcase unique sort_HoA where all_pass date_where multi_where qk each_array multi_array
+	is_empty_array is_empty_hash build_aoh partition var_precision);
 %EXPORT_TAGS = (all => \@EXPORT_OK);
 
 #sub prompt ($str, $prompt = '>') {
@@ -33,7 +33,8 @@ sub unique {
 		sub { $a cmp $b } : sub { $b cmp $a };
 
 	return sort $sort_func
-		keys %{{ map { $_->{$args->{field}}  => 1 } @{$args->{db}} }};
+		keys %{{ map { $_->{$args->{field}}  => 1 }
+		@{$args->{db}} }};
 }
 
 sub where {
@@ -44,7 +45,8 @@ sub where {
 		sub { $b->{ $args->{sort_by} } cmp $a->{ $args->{sort_by} } };
 
 	return sort $sort_func
-		grep { $_->{ $args->{field} } eq $args->{data} } @{ $args->{db} };
+		grep { $_->{ $args->{field} } eq $args->{data} }
+		@{ $args->{db} };
 }
 
 sub multi_where {
@@ -76,7 +78,8 @@ sub date_where {
 		map  { $_->[0] }
 		sort $sort_func
 		map  { [ $_, _getdate( $_->{date} ) ] }
-		grep { $_->{ $args->{field} } eq $args->{data} } @{ $args->{db} }
+		grep { $_->{ $args->{field} } eq $args->{data} }
+		@{ $args->{db} }
 	];
 }
 
@@ -167,21 +170,37 @@ sub is_empty_hash {
 #   [ { '1' => '6' }, { '2' => '7' }, { '3' => '8' }, { '4' => '9' }, { '5' => '10' } ];
 
 sub build_aoh ($first, $second) {
+	use MyIterators qw(make_iterator);
     my $it = make_iterator ($second);
     return [
         map { { $_ => $it->() } } @$first
     ];
 }
 
+#	partition an array into seperate arrays of true/false values based
+#	on $code parameter.
 #   $code must return a true/false value which indexes into $results
 #   thereby producing arrays of true and false values respectively
+#	List::Util::part is approx 3x quicker, see perl/partition.t
 
 sub partition :prototype(&$) {
+	use List::MoreUtils qw(part);
     my ($code, $list) = @_;
-    my $parts = [(),()];
+	my @parts = part { $code->($_) } @$list;
+	return ($parts[1], $parts[0]); # true, false
+}
 
-    push $parts->[ $code->($_) ]->@*, $_ for @$list;
-    return ($parts->[1], $parts->[0]); # true, false
+#	Allow a variable-length precision in (s)printf for floating point numbers, removing unwanted zeros
+
+sub var_precision {
+	use List::Util qw(min);
+    my ($num, $max) = @_;
+    $max //= 2;
+
+    return 0 if index ($num,'.') == -1;						# no decimal point, use zero precision
+    $num =~ s/.*\.//;										# remove everything before and including decimal point
+	$num =~ s/0.*$//;										# remove trailing zeros
+	return min (length ($num), $max);						# return number of non-zero digits found, up to $max
 }
 
 1;

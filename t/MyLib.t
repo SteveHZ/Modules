@@ -1,9 +1,9 @@
 use strict;
 use warnings;
 
-use Test::More tests => 6;
+use Test::More tests => 7;
 use Test::Deep;
-use MyLib qw(multi_array is_empty_array is_empty_hash qk build_aoh partition);
+use MyLib qw(multi_array is_empty_array is_empty_hash qk build_aoh partition var_precision);
 
 my @first = (1,2,3,4);
 my @second = qw(Steve Linda Izzy Julie);
@@ -72,3 +72,9 @@ subtest 'partition' => sub {
 	cmp_deeply ($true, $expect_true, 'true array ok');
 	cmp_deeply ($false, $expect_false, 'false array ok');
 };
+
+subtest 'var_precision' => sub {
+	plan tests => 2;
+	is (var_precision (5.1), 1, '5.1 - default');
+	is (var_precision (5.2978, 3), 3, '5.2978 - 3')
+}

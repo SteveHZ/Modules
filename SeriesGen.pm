@@ -15,12 +15,12 @@ sub new {
 		iArray => [],
 	};
 	die "error in $class : Usage $class->new (selections,from) selections = $self->{selections} from = $self->{from}"
-		unless defined ( $self->{selections} ) 
+		unless defined ( $self->{selections} )
 			&& defined ( $self->{from} );
 	die "error in SeriesGen !! selections = $self->{selections} from = $self->{from}"
 		if ( $self->{selections} < 1 ||
 			 $self->{selections} > $self->{from} );
-	
+
 	bless $self, $class;
 	return $self;
 }
@@ -93,6 +93,9 @@ sub get_array {
 	$args->{deep_copy} //= 1;
 	return $self->{iArray} unless $args->{deep_copy};
 
+#	return [
+#		map { $_ } @{ $self->{iArray} }
+#	];
 	my @deep_copy = ();
 	push @deep_copy, $_ for @{ $self->{iArray} };
 	return \@deep_copy;
