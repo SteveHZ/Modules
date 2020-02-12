@@ -34,7 +34,7 @@ sub unique {
 
 	return sort $sort_func
 		keys %{{ map { $_->{$args->{field}}  => 1 }
-		@{$args->{db}} }};
+		$args->{db}->@* }};
 }
 
 sub where {
@@ -46,7 +46,7 @@ sub where {
 
 	return sort $sort_func
 		grep { $_->{ $args->{field} } eq $args->{data} }
-		@{ $args->{db} };
+		$args->{db}->@*;
 }
 
 sub multi_where {
@@ -63,7 +63,7 @@ sub multi_where {
 		grep {
 			$_->{ $args->{fields}[0] } eq $args->{data} or
 			$_->{ $args->{fields}[1] } eq $args->{data}
-		} @{ $args->{db} }
+		} $args->{db}->@*
 	];
 }
 
@@ -79,7 +79,7 @@ sub date_where {
 		sort $sort_func
 		map  { [ $_, _getdate( $_->{date} ) ] }
 		grep { $_->{ $args->{field} } eq $args->{data} }
-		@{ $args->{db} }
+		$args->{db}->@*
 	];
 }
 

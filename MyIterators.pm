@@ -34,7 +34,7 @@ sub make_reverse_iterator {
 
 	return sub {
 		return undef if $index < 0;
-		return @$array [$index--];
+		return @$array [ $index-- ];
 	}
 }
 

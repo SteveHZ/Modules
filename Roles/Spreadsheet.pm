@@ -65,11 +65,11 @@ after 'BUILD' => sub {
 
 sub write_row {
 	my ($self, $worksheet, $row, $row_data) = @_;
-
 	my $col = 0;
+
 	for my $cell_data (@$row_data) {
 		while (my ($data, $fmt) = each %$cell_data) {
-			$col ++ while any { $col == $_ } @{ $self->blank_columns };
+			$col ++ while any { $col == $_ } $self->blank_columns->@*;
 			$worksheet->write ( $row, $col ++, $data, $fmt );
 		}
 	}
@@ -108,7 +108,7 @@ sub template_write_row {
 	my $col = 0;
 	for my $cell_data (@$row_data) {
 		while (my ($data, $fmt) = each %$cell_data) {
-			$col ++ while any { $col == $_ } @{ $self->blank_columns };
+			$col ++ while any { $col == $_ } $self->blank_columns->@*;
 			$worksheet->write ( $row, $col ++, $data, $self->{ $fmt } );
 		}
 	}

@@ -9,6 +9,7 @@ use Data::Dumper;
 our $VERSION = '1.000000';
 
 use Import::Into;
+use experimental ();
 use feature ();
 
 sub import {
