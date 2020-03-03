@@ -39,8 +39,8 @@ sub schwartz {
     return
 		map  { $_->[0] }
 		sort { $args->{sortfunc}->($a, $b) }
-		map  { [$_, $args->{weighter}->() ] } 
-		@{$args->{toSort}};
+		map  { [$_, $args->{weighter}->() ] }
+		$args->{toSort}->@*;
 }
 
 1;

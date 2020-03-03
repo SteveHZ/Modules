@@ -11,7 +11,7 @@ use MyMath qw(:all);
 
 subtest 'simple_tests' => sub {
 	plan tests => 4;
-	
+
 	is (power (2,5), 32, "power 2x5 = 32");
 	is (factorial (6), 720, "factorial 6 = 720");
 	is (perms (3,5), 10, "perms 3 from 5 = 10");
@@ -20,7 +20,7 @@ subtest 'simple_tests' => sub {
 
 subtest 'build_range' => sub {
 	plan tests => 2;
-	
+
 	my $range = build_range (20,100,20);
 	my $expect = [ qw(20 40 60 80 100) ];
 	cmp_deeply ($range, $expect, "positive build_range ok");

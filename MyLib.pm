@@ -32,9 +32,11 @@ sub unique {
 	my $sort_func = ($args->{order} eq "asc") ?
 		sub { $a cmp $b } : sub { $b cmp $a };
 
-	return sort $sort_func
-		keys %{{ map { $_->{$args->{field}}  => 1 }
-		$args->{db}->@* }};
+	my %temp = map { $_->{$args->{field}}  => 1 } $args->{db}->@*;
+	return sort $sort_func keys %temp;
+#	return sort $sort_func
+#		keys %{{ map { $_->{$args->{field}}  => 1 }
+#		$args->{db}->@* }};
 }
 
 sub where {
