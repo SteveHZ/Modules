@@ -5,7 +5,7 @@ package MyTransform;
 
 use strict;
 use warnings;
-use Data::Dumper;
+#use Data::Dumper;
 
 use Exporter 'import';
 use vars qw (@EXPORT_OK %EXPORT_TAGS);

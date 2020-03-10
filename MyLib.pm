@@ -33,10 +33,7 @@ sub unique {
 		sub { $a cmp $b } : sub { $b cmp $a };
 
 	my %temp = map { $_->{$args->{field}}  => 1 } $args->{db}->@*;
-	return sort $sort_func keys %temp;
-#	return sort $sort_func
-#		keys %{{ map { $_->{$args->{field}}  => 1 }
-#		$args->{db}->@* }};
+	return [ sort $sort_func keys %temp ];
 }
 
 sub where {
@@ -46,9 +43,11 @@ sub where {
 		sub { $a->{ $args->{sort_by} } cmp $b->{ $args->{sort_by} } } :
 		sub { $b->{ $args->{sort_by} } cmp $a->{ $args->{sort_by} } };
 
-	return sort $sort_func
+	return [
+		sort $sort_func
 		grep { $_->{ $args->{field} } eq $args->{data} }
-		$args->{db}->@*;
+		$args->{db}->@*
+	];
 }
 
 sub multi_where {
@@ -101,7 +100,7 @@ sub sort_HoA {
 
 	for my $key (keys %$toSort) {
 		$sorted->{$key} = [
-			sort { $a cmp $b } @{ $toSort->{$key} }
+			sort { $a cmp $b } $toSort->{$key}->@*
 		];
 	}
 	return $sorted;

@@ -2,8 +2,7 @@ package MyStats;
 
 #	MyStats.pm 03/03/20
 
-use strict;
-use warnings;
+use MyHeader;
 use List::Util qw(sum);
 use MyMath qw(power factorial);
 
@@ -12,12 +11,13 @@ use vars qw (@EXPORT_OK %EXPORT_TAGS);
 
 @EXPORT_OK = qw (
 	binomial_coeff probability binomial_prob bayes
-	mean sample_variance standard_sample_deviation population_variance standard_population_deviation
+	mean variance standard_deviation
 );
+
 %EXPORT_TAGS = (all => \@EXPORT_OK);
 
 # https://www.mathsisfun.com/combinatorics/combinations-permutations.html      (n)
-# calculate number of combinations (order does not matter) - often written as  (r) - in continuos brackets
+# calculate number of combinations (order does not matter) - often written as  (r) - in continuous brackets
 # n is the number of things to choose from, r is the number to choose without repetition (n choose r)
 # eg perms (3 from 5) -> binomial_coeff (5,3)
 sub binomial_coeff {
@@ -63,26 +63,19 @@ sub _get_total {
     return $total;
 }
 
-#use for smaller samples of data (part-populations)
-sub sample_variance {
-    my $list = shift;
-    return _get_total ($list) / scalar @$list - 1;
-}
+# $population = 'population' for full populations of data
+# $population = 'sample' (or anything !!) for smaller samples of data (part-populations)
+{
+	use Function::Parameters qw(fun);
+	fun variance ($list, :$size = 'population') {
+		return ($size eq 'population')
+			? _get_total ($list) / scalar @$list
+			: _get_total ($list) / scalar @$list - 1;
+		}
 
-sub standard_sample_deviation {
-    my $list = shift;
-    return sqrt (sample_variance ($list));
-}
-
-# use for full populations of data
-sub population_variance {
-    my $list = shift;
-    return _get_total ($list) / scalar @$list;
-}
-
-sub standard_population_deviation {
-    my $list = shift;
-    return sqrt (population_variance ($list));
+	fun standard_deviation ($list, :$size = 'population') {
+    	return sqrt (variance ($list, size => $size));
+	}
 }
 
 1;
