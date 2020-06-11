@@ -76,7 +76,7 @@ sub effective_gross_interest_rate {
 
 sub effective_net_interest_rate {
 	my ($interest, $amount) = @_;
-	return fmt (net (($interest/ $amount) * 100), "%.2f%%");
+	return fmt (net (amount => ($interest/ $amount) * 100), "%.2f%%");
 }
 
 sub drip_feed_interest {
