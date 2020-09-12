@@ -29,7 +29,7 @@ sub new {
 
 sub index {
 	my ($self, $idx) = @_;
-	return @{ $self->{iArray} }[$idx];
+	return $self->{iArray} [$idx];
 }
 
 sub selections {
@@ -68,7 +68,7 @@ sub initArray {
 	my $self = shift;
 	if ($self->{selections}) {
 		my $s = $self->{selections} - 1;
-		@{ $self->{iArray} } = (0...$s);
+		$self->{iArray}->@*  = (0...$s);
 		return 1;
 	} else {
 		return 0;
@@ -79,7 +79,7 @@ sub reInitArray {
 	my ($self, $column) = @_;
 	my $count = 1;
 	for (my $i = $column + 1; $i < $self->{selections}; $i++, $count++) {
-		@{ $self->{iArray} }[$i] = @{ $self->{iArray} }[$column] + $count;
+		$self->{iArray} [$i] = $self->{iArray} [$column] + $count;
 	}
 }
 
@@ -93,11 +93,8 @@ sub get_array {
 	$args->{deep_copy} //= 1;
 	return $self->{iArray} unless $args->{deep_copy};
 
-#	return [
-#		map { $_ } @{ $self->{iArray} }
-#	];
 	my @deep_copy = ();
-	push @deep_copy, $_ for @{ $self->{iArray} };
+	push @deep_copy, $_ for $self->{iArray}->@*;
 	return \@deep_copy;
 }
 
@@ -110,7 +107,7 @@ sub map_to {
 	my @new_list = ();
 
 	$self->{onIteration} = sub {
-		push @new_list, [ map { @$array [$_] } @{ $self->{iArray} } ];
+		push @new_list, [ map { @$array [$_] } $self->{iArray}->@* ];
 	};
 	$self->run ();
 	return \@new_list;

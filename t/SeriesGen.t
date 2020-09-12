@@ -17,7 +17,7 @@ my $coderef = sub {
 
 	print "\n\t";
 	for (my $i = 0; $i < $objref->selections (); $i ++) {
-		printf ("%2d xxx", $objref->index ($i) + 1 );
+		printf ("%2d ", $objref->index ($i) + 1 );
 	}
 };
 

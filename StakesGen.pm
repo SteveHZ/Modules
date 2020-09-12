@@ -23,20 +23,20 @@ sub runIt {
 		if ($column < $self->{selections} - 1) {
 			$self->runIt ($column + 1);
 			if ($column > 0) {
-				if (++ (@{ $self->{iArray} }[$column - 1]) > $self->{from} - ($self->{selections} - 1)) {
+				if (++ ($self->{iArray} [$column - 1]) > $self->{from} - ($self->{selections} - 1)) {
 					return;
 				} else {
 					$self->reInitArray ($column);
 				}
 			}
   		} else {
-			while ( @{ $self->{iArray} }[$column] >= 0 ) {
+			while ( $self->{iArray} [$column] >= 0 ) {
 				if ($self->{onIteration}) {
 					$self->{onIteration}->($self);
 				}
 				$self->{count} ++;
-				@{ $self->{iArray} }[$column] --;
-				@{ $self->{iArray} }[$column - 1] ++;
+				$self->{iArray} [$column] --;
+				$self->{iArray} [$column - 1] ++;
 			}
 			return;
 		}
@@ -47,9 +47,9 @@ sub initArray {
 	my $self = shift;
 
 	for (my $i = 0;$i < $self->{selections} - 1;$i ++) {
-    	@{ $self->{iArray} }[$i] = 0;
+		$self->{iArray} [$i] = 0;
 	}
-    @{ $self->{iArray} }[$self->{selections} - 1] = $self->{from} - $self->{selections};
+    $self->{iArray} [$self->{selections} - 1] = $self->{from} - $self->{selections};
 	return 1;
 }
 
@@ -59,13 +59,13 @@ sub reInitArray {
 	my $num;
 
 	for ($num = 0; $num < $base; $num ++) {
-		$cnt += ($self->{iArray}[$num] + 1);
+		$cnt += ($self->{iArray} [$num] + 1);
 	}
 	for ($num = $base; $num < ($self->{selections} - 1); $num ++) {
-		@{ $self->{iArray} }[$num] = 0;
+		$self->{iArray} [$num] = 0;
 		$cnt ++;
 	}
-	@{ $self->{iArray} }[$self->{selections} - 1] = $self->{from} - $cnt - 1;
+	$self->{iArray} [$self->{selections} - 1] = $self->{from} - $cnt - 1;
 }
 
 sub get_stakes {
@@ -73,17 +73,6 @@ sub get_stakes {
 	my $array = build_range ($start, $end, $interval);
 
 	return $self->map_to ($array);
-}
-
-sub map_to {
-	my ($self, $array) = @_;
-	my @new_list = ();
-
-	$self->{onIteration} = sub {
-		push @new_list, [ map { @$array [$_] } @{ $self->{iArray} } ];
-	};
-	$self->run ();
-	return \@new_list;
 }
 
 1;

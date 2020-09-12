@@ -21,17 +21,17 @@ sub runIt {
     do {
     	if ($column < $self->{selections} - 1) {
         	$self->runIt ($column + 1);
-            if (@{ $self->{iArray} }[$column] >= $self->{from} - 1) {
+            if ($self->{iArray} [$column] >= $self->{from} - 1) {
             	return;
             } else {
             	$self->reInitArray ($column);
             }
         } else {
-        	while (@{ $self->{iArray} }[$column] < $self->{from}) {
+        	while ($self->{iArray} [$column] < $self->{from}) {
             	if ($self->{onIteration}) {
                 	$self->{onIteration}->($self);
                 }
-                @{ $self->{iArray} }[$column] ++;
+                $self->{iArray} [$column] ++;
                 $self->{count} ++;
             }
             return;
@@ -42,8 +42,8 @@ sub runIt {
 sub initArray {
 	my $self = shift;
 
-    for (my $i = 0;$i < $self->{selections};$i ++) {
-    	@{ $self->{iArray} }[$i] = 0;
+    for (my $i = 0;$i < $self->{selections}; $i ++) {
+    	$self->{iArray} [$i] = 0;
     }
     return 1;
 }
@@ -51,10 +51,10 @@ sub initArray {
 sub reInitArray {
 	my ($self,$base) = @_;
 
-    @{$self->{iArray}}[$base] ++;
+    $self->{iArray} [$base] ++;
 
-    for (my $i = $base + 1;$i < $self->{selections};$i ++) {
-    	@{ $self->{iArray} }[$i] = 0;
+    for (my $i = $base + 1;$i < $self->{selections}; $i ++) {
+    	$self->{iArray} [$i] = 0;
     }
 }
 

@@ -23,25 +23,25 @@ sub runIt {
 		if ($column < ($self->{selections}) - 1) {
 			$self->runIt ($column + 1);
 			$maxCol = ($self->{from} -(($self->{selections}) - $column));
-			if (@{ $self->{iArray} }[$column] > $maxCol) {
+			if ($self->{iArray} [$column] > $maxCol) {
 				return;
 			} else {
-				@{ $self->{iArray} }[$column] ++;
+				$self->{iArray} [$column] ++;
 				$self->reInitArray ($column);
 			}
 		} else {
 			$maxCol = ($self->{from} -(($self->{selections}) - $column));
-			while (@{ $self->{iArray} }[$column] <= $maxCol) {
+			while ($self->{iArray} [$column] <= $maxCol) {
 				if ($self->{onIteration}) {
 					$self->{onIteration}->($self);
 				}
-				@{ $self->{iArray} }[$column] ++;
+				$self->{iArray} [$column] ++;
 				$self->{count} ++;
 			}
 			return;
 		}
 	} while ($column >= 0);
-} 
+}
 
 sub get_combs {
 	my ($self, $array) = @_;
