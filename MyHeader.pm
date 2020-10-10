@@ -12,20 +12,21 @@ our $VERSION = '1.000000';
 use Import::Into;
 use experimental ();
 use feature ();
-no warnings qw(experimental::signatures);
+no warnings qw (experimental::signatures);
 
 sub import {
     my $caller_level = 1;
 
-    strict->import::into($caller_level);
-    warnings->import::into($caller_level);
-    Data::Dumper->import::into($caller_level);
+    strict->import::into ($caller_level);
+    warnings->import::into ($caller_level);
+    Data::Dumper->import::into ($caller_level);
 
-    my @experiments = qw( signatures );
-    experimental->import::into( $caller_level, @experiments );
+    my @experiments = qw (signatures);
+    experimental->import::into ($caller_level, @experiments);
 
+#   Need () for $version ,import::into requires array
     my ($version) = $^V =~ /^v(5\.\d+)/;
-    feature->import::into( $caller_level, ':' . $version );
+    feature->import::into ($caller_level, ':' . $version);
 }
 
 1;
