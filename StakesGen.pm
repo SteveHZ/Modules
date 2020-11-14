@@ -28,8 +28,6 @@ sub runIt {
 				} else {
 					$self->reInitArray ($column);
 				}
-			}
-  		} else {
 			while ( $self->{iArray} [$column] >= 0 ) {
 				if ($self->{onIteration}) {
 					$self->{onIteration}->($self);
