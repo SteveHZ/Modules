@@ -123,7 +123,7 @@ sub qk {
 	my ($list, $value) = @_;
 	$value //= 1;
 
-	return { map {$_ => $value} @$list };
+	return { map { $_ => $value } @$list };
 }
 
 sub each_array {
