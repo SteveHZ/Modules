@@ -71,7 +71,7 @@ sub _get_total {
 		return ($size eq 'population')
 			? _get_total ($list) / scalar @$list
 			: _get_total ($list) / scalar @$list - 1;
-		}
+	}
 
 	fun standard_deviation ($list, :$size = 'population') {
     	return sqrt (variance ($list, size => $size));
