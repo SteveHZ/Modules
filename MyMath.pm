@@ -46,7 +46,7 @@ sub new_perms {
 	my ($sels, $from) = @_;
 	my ($top, $bot) = (1, 1);
 
-	$top *= $_ for @{ build_range ($from - ($sels - 1), $from, -1) };
+	$top *= $_ for ( build_range ($from - ($sels - 1), $from, -1)->@* );
 	$bot *= $_ for (2..$sels);
 
 	return $top / $bot;
