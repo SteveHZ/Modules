@@ -37,6 +37,7 @@ after 'BUILD' => sub {
 		color => 'blue',
 		align => 'center',
 		num_format => '#,##0.00',
+#		border => 1,
 	);
 	$self->{currency_format} = $self->{workbook}->add_format (
 		bg_color => '#FFC7CE',
