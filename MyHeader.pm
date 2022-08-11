@@ -14,6 +14,11 @@ use Import::Into;
 use experimental ();
 no warnings qw (experimental::signatures);
 
+# For v5.36, signatures no longer experimental
+# but multiple vard in for-list is experimental
+
+#no warnings qw (experimental::for_list);
+
 sub import {
     my $caller_level = 1;
 
@@ -22,6 +27,7 @@ sub import {
     Data::Dumper->import::into ($caller_level);
 
     my @experiments = qw (signatures);
+#    my @experiments = qw (for_list); # v5.36
     experimental->import::into ($caller_level, @experiments);
 
 #   Need () for $version ,import::into requires array

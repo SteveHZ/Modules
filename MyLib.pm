@@ -7,9 +7,32 @@ use MyHeader;
 use Exporter 'import';
 use vars qw (@EXPORT_OK %EXPORT_TAGS);
 
-@EXPORT_OK	 = qw (prompt wordcase unique sort_HoA where all_pass date_where multi_where qk each_array multi_array
-				   is_empty_array is_empty_hash build_aoh partition var_precision read_file write_file);
+@EXPORT_OK	 = qw (read_file write_file prompt wordcase unique sort_HoA where all_pass date_where multi_where qk each_array multi_array
+				   is_empty_array is_empty_hash build_aoh partition var_precision);
 %EXPORT_TAGS = (all => \@EXPORT_OK);
+
+sub read_file {
+	my $filename = shift;
+	my @lines = ();
+	my $line;
+
+	open my $fh, '<', $filename or die "Can't find $filename";
+	while ($line = <$fh>) {
+		push @lines, $line;
+	}
+	close $fh;
+	return \@lines;
+}
+
+sub write_file {
+	my ($filename, $lines) = @_;
+
+	open my $fh, '>', $filename or die "Unable to open $filename";
+	for my $line (@$lines) {
+		print $fh "$line";
+	}
+	close $fh;
+}
 
 #sub prompt ($str, $prompt = '>') {
 sub prompt {
@@ -167,7 +190,7 @@ sub is_empty_hash {
 #   For example,
 #   my @first = qw(1 2 3 4 5);
 #   my @second = qw(6 7 8 9 10);
-#   returns
+#   build_aoh (\@first, \@second); returns
 #   [ { '1' => '6' }, { '2' => '7' }, { '3' => '8' }, { '4' => '9' }, { '5' => '10' } ];
 
 sub build_aoh ($first, $second) {
@@ -202,29 +225,6 @@ sub var_precision {
     $num =~ s/.*\.//;										# remove everything before and including decimal point
 	$num =~ s/0.*$//;										# remove trailing zeros
 	return min (length ($num), $max);						# return number of non-zero digits found, up to $max
-}
-
-sub read_file {
-	my $filename = shift;
-	my @lines = ();
-	my $line;
-
-	open my $fh, '<', $filename or die "Can't find $filename";
-	while ($line = <$fh>) {
-		push @lines, $line;
-	}
-	close $fh;
-	return \@lines;
-}
-
-sub write_file {
-	my ($filename, $lines) = @_;
-
-	open my $fh, '>', $filename or die "Unable to open $filename";
-	for my $line (@$lines) {
-		print $fh "$line";
-	}
-	close $fh;
 }
 
 1;
