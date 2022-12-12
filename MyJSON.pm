@@ -11,7 +11,7 @@ use JSON -support_by_pp;
 use Exporter 'import';
 use vars qw (@EXPORT_OK %EXPORT_TAGS);
 
-@EXPORT_OK	 = qw (read_json write_json);
+@EXPORT_OK	 = qw (read_json write_json my_encode_json);
 %EXPORT_TAGS = (all => \@EXPORT_OK);
 
 sub read_json {
@@ -31,14 +31,20 @@ sub write_json {
 
 	my $json = JSON->new;
 	my $pretty_print = $json->pretty->indent_length ($indent)->encode ($data);
-#	my $json = JSON::MaybeXS->new;
-#	my $pretty_print = $json->pretty->indent_length ($indent)->encode ($data);
-#	my $json = Cpanel::JSON::XS->new;
-#	my $pretty_print = $json->pretty(1)->indent_length ($indent)->encode ($data);
 
     open my $fh, '>', $filename or die "\n\n Can't open $filename for writing !!!\nReason : $!";
     print $fh $pretty_print;
     close $fh;
+}
+
+#	added 05/12/22
+#	https://github.polettix.it/ETOOBUSY/2022/11/29/json-pppp/
+
+use v5.10; # state
+
+sub my_encode_json {
+	state $encoder = JSON->new->utf8->canonical->pretty;
+	return $encoder->encode ($_[0]);
 }
 
 =head
