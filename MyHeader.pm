@@ -1,33 +1,25 @@
 package MyHeader;
-
-#   MyHeader.pm 22/05/19
+#
+#   MyHeader.pm 22/05/19 (v 5.30), 29/07/23 (v5.38)
 #   http://perladvent.org/2017/2017-12-06.html
 
-use strict;
-use warnings;
-use v5.30;
+use v5.38;
+use feature 'class';
+no warnings qw (experimental::class experimental::for_list);
+
+use Import::Into;
 use Data::Dumper;
 
 our $VERSION = '1.000000';
 
-use Import::Into;
-use experimental ();
-no warnings qw (experimental::signatures);
-
-# For v5.36, signatures no longer experimental
-# but multiple vard in for-list is experimental
-
-#no warnings qw (experimental::for_list);
-
 sub import {
     my $caller_level = 1;
 
-    strict->import::into ($caller_level);
-    warnings->import::into ($caller_level);
+	strict->import::into ($caller_level);
+	warnings->import::into ($caller_level);
     Data::Dumper->import::into ($caller_level);
-
-    my @experiments = qw (signatures);
-#    my @experiments = qw (for_list); # v5.36
+	
+    my @experiments = qw (class for_list);
     experimental->import::into ($caller_level, @experiments);
 
 #   Need () for $version ,import::into requires array

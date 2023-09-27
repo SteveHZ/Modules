@@ -1,6 +1,6 @@
 package MyKeyword;
 
-use 5.012;    # required for pluggable keywords
+use 5.12.0;    # required for pluggable keywords
 use strict;
 use warnings;
 use Keyword::Simple;
