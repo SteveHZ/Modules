@@ -28,6 +28,7 @@ sub runIt {
 				} else {
 					$self->reInitArray ($column);
 				}
+			}
 			while ( $self->{iArray} [$column] >= 0 ) {
 				if ($self->{onIteration}) {
 					$self->{onIteration}->($self);
@@ -44,7 +45,7 @@ sub runIt {
 sub initArray {
 	my $self = shift;
 
-	for (my $i = 0;$i < $self->{selections} - 1;$i ++) {
+	for (my $i = 0;$i < $self->{selections} - 1; $i ++) {
 		$self->{iArray} [$i] = 0;
 	}
     $self->{iArray} [$self->{selections} - 1] = $self->{from} - $self->{selections};
